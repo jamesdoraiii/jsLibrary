@@ -1,0 +1,10 @@
+/*This is a CSS comment*/
+body {
+    background-color: #D3D3D3;
+}
+
+/*This is another CSS comment*/
+.wrapper {
+    border: 10px dotted red;
+    background-color: white;
+}
