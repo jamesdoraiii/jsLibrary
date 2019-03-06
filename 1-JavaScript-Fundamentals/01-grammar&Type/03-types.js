@@ -11,4 +11,13 @@ let sent = "this sentence will be split into"
 
 let tester;
 
-console.log(tester)
+//console.log(tester)
+
+
+var x = 15;
+console.log(x); //15
+{
+    let y = 12;
+    console.log(y); //12
+}
+console.log(y); //12
