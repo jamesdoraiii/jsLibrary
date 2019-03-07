@@ -43,3 +43,25 @@ switch (dessert) {
         console.log(`We are sorry ${dessert} is not on the menu.`);
 
 }
+
+for(let FB = 0; FB<=100; FB++){
+    switch(true){
+        case(FB % 3 == 0 && FB % 5 == 0):
+        console.log('Fizz Buzz');
+        break;
+
+        case(FB % 3 == 0):
+        console.log('Fizz');
+        break;
+
+        case(FB % 5 == 0):
+        console.log('Buzz');
+        break;
+
+        default:
+        console.log(FB);
+
+    }
+
+    
+}

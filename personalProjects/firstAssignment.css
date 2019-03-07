@@ -103,6 +103,11 @@ body{
 
 }
 
+.homeImage h1:hover{
+
+   //Here is where you will put animation 
+}
+
 .spacer1{
 
     color: white;
