@@ -3,6 +3,12 @@ let name = {
   last: "dora"
 };
 
+words = ['left','right','up','down']
+
+for(element in name){
+  //console.log(element);
+}
+
 //objects is a data type that consists of key/value pairs
 
 let netflix = {
@@ -28,6 +34,12 @@ let netflix = {
   season2: {},
   season3: {}
 };
+//console.log("^^^^^^^^")
+
+for(let i = 1; i <10; i++){
+  //console.log(netflix.season1.seasonInfo.episodeInfo[i].episodeName)
+}
+//ABOVE IS AN EXAMPLE OF A FOR LOOP THAT GOES THROUGH AND PRINTS OFF EPISODE NAMES
 
 //console.log(netflix.season1.seasonInfo.episodeInfo[2].episodeName);
 
@@ -82,9 +94,8 @@ baking['zuchini'] = 'better make some bread';
 
 //This is how you add values to an object^
 
-console.log(baking);
+//console.log(baking);
 
 
 
 //*********************************************************** */
-

@@ -6,14 +6,14 @@ let student = {
 }
 
 for (let item in student){
-    //console.log(item)
+    console.log(item)
 }
 
 //this shoes our keys
 
 
-for (let item in student){
-    //console.log(student[item])
+for (item in student){
+    console.log(student[item])
 }
 
 //this will show the values for our keys
@@ -21,7 +21,7 @@ for (let item in student){
 let dogArray = ["lab", "border collie", "pitbull", "greyhound"];
 
 for (let dog in dogArray){
-    //console.log(dogArray[dog])
+    console.log(dog)
 }
 
 name = "jaMEs";

@@ -1,0 +1,118 @@
+body {
+    font-family: 'Work Sans', sans-serif;
+    background-color: rgb(245, 245, 245);
+  }
+  
+  .wrapper {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+  }
+  
+  .controls {
+    flex: 1;
+    padding: 10px;
+  }
+
+  form{
+    height: 400px;
+    padding-top: 60px;
+
+  }
+  
+  form p:nth-of-type(1) {
+    margin-top: 0;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 20px;
+  }
+  
+  article p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  article p:nth-of-type(2) {
+    font-size: 14px;
+    line-height: 2;
+  }
+  
+  nav {
+    margin-bottom: 50px;
+  }
+  
+  .prev {
+    float: left;
+  }
+  
+  .next {
+    float: right;
+  }
+  
+  article {
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+  }
+  
+  img {
+    float: right;
+    margin-left: 20px;
+    max-width: 200px;
+  }
+  
+  .clearfix {
+    clear: both;
+  }
+  
+  span {
+    background-color: #ccc;
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .jumbotron{
+    background-image: url("img/daryan-shamkhali-52938-unsplash.jpg");
+    height: 350px;
+    color: white;
+    text-align: center;
+
+  }
+  .jumbotron h1{
+    font-size: 85px;
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+    height: 120px;
+   
+
+  }
+  .jumbotron p{
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+    top: 20px;
+    font-size: 25px;
+    
+  }
+
+    .results{
+      flex: 1;
+      padding: 10px;
+      height: 500px;
+      overflow-y: scroll;
+
+    }
+
+    footer{
+      background-image: url("img/daryan-shamkhali-52938-unsplash.jpg");
+      height: 200px;
+      width: 100%;
+      padding-top: 50px;
+    }
