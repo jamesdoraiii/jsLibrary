@@ -14,6 +14,7 @@ import PropsDemo from '../concepts/PropsDemo'
 import LifeCycleCodepen from '../concepts/LifeCycleCodepen'
 import ClassComponentDemo from '../ClassComponentDemo'
 import TimePiecesApp from '../apps/timer-apps/TimePieces'
+import NyTimesApp from '../apps/nyt-app/NytApp'
 
 const Sidebar = () => (
 
@@ -29,6 +30,7 @@ const Sidebar = () => (
         <li><Link to="/propsdemo">Props Demo</Link></li>
         <li><Link to="/lifecyclecodepen">Lifecycle Diagram</Link></li>
         <li><Link to="/timer">TimePiecesApp</Link></li>
+        <li><Link to="/nytimesapp">New York Times</Link></li>
 
       </ul>
     </div>
@@ -43,6 +45,7 @@ const Sidebar = () => (
             <Route exact path="/propsdemo"><PropsDemo /></Route>
             <Route exact path= "/lifecyclecodepen"><LifeCycleCodepen /></Route>
             <Route exact path= "/timer"><TimePiecesApp/></Route>
+            <Route exact path= "/nytimesapp"><NyTimesApp/></Route>
         </Switch>
     </div>
   </div>
