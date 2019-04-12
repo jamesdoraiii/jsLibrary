@@ -1,9 +1,9 @@
 var express = require('express')
-var router = express.Router()      //1
+var router = express.Router()      
 var sequelize = require('../db');
 var User = sequelize.import('../models/user');
 var bcrypt = require('bcryptjs'); 
-var jwt = require('jsonwebtoken'); //<-- ADD THIS LINE
+var jwt = require('jsonwebtoken'); 
 
 //This router creates a new user
 router.post('/createuser', function (req, res) {
@@ -19,7 +19,7 @@ router.post('/createuser', function (req, res) {
   }).then(
     function createSuccess(user) {
 
-      var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
+      var token = jwt.sign({id: user.id}, "this is a public secret dont forget to put it in env", {expiresIn: 60*60*24});
 
       res.json({
         user: user,
@@ -38,14 +38,12 @@ router.post('/createuser', function (req, res) {
 router.post('/signin', function (req, res) {
     User.findOne({ where: { username: req.body.user.username } }).then(
         function (user) {
-            //1
             if (user) {
-                      //2                //3                        //4            //5
                 bcrypt.compare(req.body.user.password, user.passwordhash, function (err, matches) {
                     //1
                     if (matches) {
                       //2
-                      var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24 });
+                      var token = jwt.sign({id: user.id}, "this is a public secret dont forget to put it in env", {expiresIn: 60*60*24 });
                       res.json({  //3
                           user: user,
                           message: "successfully authenticated",

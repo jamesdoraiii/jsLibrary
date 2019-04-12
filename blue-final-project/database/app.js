@@ -7,13 +7,22 @@ var sequelize = require('./db');
 var bodyParser = require('body-parser');
 app.use(require('./middleware/headers'));
 
-sequelize.sync();
+
+sequelize.sync(); //use {force: true} to reset tables if necessary
 
 app.use(bodyParser.json());
 
 app.use('/user', user);
 
+
+
+/*************************
+ * PROTECTED ROUTES BELOW
+**************************/
+
+app.use(require('./middleware/validate-session'));
 app.use('/post', post);
+
 
 app.use('/comment', comment);
 

@@ -7,7 +7,8 @@ var Comment = sequelize.import('../models/comment');
 router.post('/create', (req, res) => {
     const newComment = {
         commentcontent: req.body.comment.commentcontent,
-        useridofcommenter: req.body.comment.useridofcommenter,
+        useridofcommenter: req.user.id,
+        usernameofcommenter: req.user.username,
         postidofparent: req.body.comment.postidofparent
         
     };
@@ -25,15 +26,15 @@ router.get('/findpostcomments/:postid', (req, res) => {
        .catch(err => res.status(500).json({ error: err }))
 });
 
-//This router finds all comments made by a specific user
-router.get('/findusercomments/:userid', (req, res) => {
-    Comment.findAll({ where: { useridofcommenter: req.params.userid} })
+//This router finds all comments made by whoever is currently logged in
+router.get('/findusercomments', (req, res) => {
+    Comment.findAll({ where: { useridofcommenter: req.user.id} })
        .then(comments => res.status(200).json(comments))
        .catch(err => res.status(500).json({ error: err }))
 });
 
 
-//This router deletes a comment based on the id
+//This router deletes a comment based on the id of the specific comment
 router.delete('/deletecomment/:id', (req, res) => {
     Comment.destroy({ where: { id: req.params.id} })
         .then(deleted => res.status(200).json({
