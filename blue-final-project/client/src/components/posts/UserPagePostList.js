@@ -1,10 +1,21 @@
 import React from 'react';
-import Post from './Post';
+import UserPagePost from './UserPagePost';
+import { Container, Row, Col } from 'reactstrap';
+import Radium from 'radium';
+
+const styles = {
+    heightforce : {
+        height: "100vh",
+        color: "red"
+    }
+}
+
+
 
 class PostList extends React.Component{
 
-        constructor() {
-                super();
+        constructor(props) {
+                super(props);
         
                 this.state = {
                     posts: []
@@ -13,6 +24,7 @@ class PostList extends React.Component{
 
         componentDidMount = () => {
                 this.fetchPosts();
+                
             }
 
 
@@ -20,7 +32,7 @@ class PostList extends React.Component{
 
                 const accessToken = localStorage.getItem('token');
 
-                fetch('http://localhost:3008/post/finduserposts',{
+                fetch(`http://localhost:3008/post/${this.props.fetchtype}`,{
                 method: 'GET',
                 headers: new Headers({
                         'Content-Type': 'application/json',
@@ -29,26 +41,32 @@ class PostList extends React.Component{
                 })
                         .then(res => res.json())
                         .then(data => {
+                            console.log('data => ',data)
                                 this.setState({
                                         posts : data
                 })
             })
             .catch(err => console.log(err));
-    }
+        }
 
     render(){
         let finishedPosts = this.state.posts.map(data => {
             return (
-                <Post post={data}/>
+                
+                <UserPagePost key={data.id} post={data} fetchPostsFunc={this.fetchPosts}/>
+               
             )
         })
 
         return(
-                <div>
-                {finishedPosts}
-                </div>
+
+        <Container>
+                <Row>   
+                {this.state.posts.length == 0  ? <div><h1 style={styles.heightforce}>No Posts to Display</h1></div> : <Col>{finishedPosts}</Col>}
+                </Row>   
+        </Container>
         )
 
     }
 }
-export default PostList;
+export default Radium(PostList);

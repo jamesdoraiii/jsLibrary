@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Form, FormGroup, Label, Input, Button, InputGroup, InputGroupAddon, ListGroup } from 'reactstrap';
 import Comment from './Comment';
+import Radium from 'radium';
 
 class CommentCreateAndList extends React.Component{
         
@@ -11,7 +12,22 @@ class CommentCreateAndList extends React.Component{
                     comments: [],
                     commentcontent: '',
                     postidofparent: this.props.postIdentity
-                };       
+                };
+                
+                this.styles = {
+                    spacer: {
+                        height: "4vh"
+                    },
+                    button: {
+                        width: "100%",
+                        fontFamily: "'Montserrat', sans-serif",
+                        backgroundColor: "black"
+                    },
+                    fontset: {
+                        fontFamily: "'Montserrat', sans-serif"
+                    }
+
+                }
         }
 
         componentDidMount = () => {
@@ -24,12 +40,12 @@ class CommentCreateAndList extends React.Component{
                 }); 
             }
             
-        commentCreation = (event) => {
+        commentCreation = async (event) => {
 
                 const accessToken = localStorage.getItem('token');
-        
+                event.preventDefault();
                 if (this.state.commentcontent !== "" ){
-                        fetch("http://localhost:3008/comment/create", {
+                        await fetch("http://localhost:3008/comment/create", {
                         method: 'POST', 
                         body: JSON.stringify({comment:this.state}), 
                         headers: new Headers({
@@ -37,12 +53,22 @@ class CommentCreateAndList extends React.Component{
                             'Authorization': accessToken
                             })
                         
-                    }).then(
+                    })
+                    .then(
                         (response) => response.json() )
-                        //alert("Your comment was submitted!")
-                        this.fetchComments();
-                        event.preventDefault();
+                        .then(
+                        console.log("before the set State",this.state.commentcontent),
+                        await this.setState({
+                            commentcontent: ''
+                        }))
+                        .then(
+                        console.log("after the set state", this.state.commentcontent),
+                        this.fetchComments());
+                        
+                        //document.getElementById('commentinput').value='';
+                        
                 }
+                this.fetchComments();
                 event.preventDefault();
             }
 
@@ -65,6 +91,7 @@ class CommentCreateAndList extends React.Component{
             })
             .catch(err => console.log(err));
                 }
+
         
             render (){
 
@@ -77,18 +104,24 @@ class CommentCreateAndList extends React.Component{
                     <div>
                             <Form onSubmit={this.commentCreation} >
                                 <FormGroup>
-                                    <Label for="commentcontent">Comment: </Label>
-                                    <Input id="commentcontent" type="text" name="commentcontent" placeholder="Enter Your Comment:" onChange={this.handleChange} />
+                                    <InputGroup>
+                                    <InputGroupAddon><Button type="submit" style = {this.styles.button}> Post Comment </Button></InputGroupAddon>
+                                    <Input id="commentcontent" type="text" name="commentcontent" placeholder="Your Comment Here" onChange={this.handleChange} style = {this.styles.fontset} id="commentinput" value={this.state.commentcontent}/>
+                                    </InputGroup>
                                 </FormGroup>
-                                <Button type="submit"> Post Comment </Button>
+                                
                             </Form>
+
                             <div>       
-                                <h5>Comments on this post:</h5>
+                                {this.state.comments.length > 0 ? <h4><b>Comments on this track:</b></h4> : <div><div style={this.styles.spacer}></div><h4>Be the first to leave a comment!</h4></div>}
+
+                                <ListGroup>
                                 {finishedComments}
+                                </ListGroup>
 
                                 </div>
                     </div>
                 )};
 
 }
-export default CommentCreateAndList;
+export default Radium(CommentCreateAndList);

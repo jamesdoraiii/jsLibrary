@@ -1,27 +1,28 @@
 import React from 'react';
-import Post from './Post';
+import Comment from './Comment';
+import Radium from 'radium';
+import { Container, Row, Col } from 'reactstrap';
 
-
-class PostList extends React.Component{
+class CommentList extends React.Component{
 
         constructor() {
                 super();
         
                 this.state = {
-                    posts: []
+                    comments: []
                 }
         }
 
         componentDidMount = () => {
-                this.fetchPosts();
+                this.fetchComments();
             }
 
 
-        fetchPosts = () => {
+        fetchComments = () => {
 
                 const accessToken = localStorage.getItem('token');
 
-                fetch('http://localhost:3008/post/findrecentposts',{
+                fetch(`http://localhost:3008/comment/findusercomments`,{
                 method: 'GET',
                 headers: new Headers({
                         'Content-Type': 'application/json',
@@ -31,29 +32,31 @@ class PostList extends React.Component{
                         .then(res => res.json())
                         .then(data => {
                                 this.setState({
-                                        posts : data
+                                        comments : data
                 })
             })
             .catch(err => console.log(err));
-        }
-
+    }
 
     render(){
-        let finishedPosts = this.state.posts.map(data => {
+        let finishedComments = this.state.comments.map(data => {
             return (
-                <Post key={data.id} post={data}/>
+                <Row>
+                <Comment key={data.id} comment={data} deleteOption = 'true'/>
+                </Row>
             )
         })
 
         return(
-                <div>       
-                
-                {finishedPosts}
 
+                <Container>
+                <div>       
+                {finishedComments}
                 </div>
+                </Container>
                
         )
 
     }
 }
-export default PostList;
+export default Radium(CommentList);

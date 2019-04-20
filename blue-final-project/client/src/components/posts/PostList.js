@@ -1,26 +1,32 @@
 import React from 'react';
-import Comment from './Comment';
+import Post from './Post';
+import { Container, Row, Col } from 'reactstrap';
+import Radium from 'radium';
 
-class CommentList extends React.Component{
 
-        constructor() {
-                super();
+
+
+class PostList extends React.Component{
+
+        constructor(props) {
+                super(props);
         
                 this.state = {
-                    comments: []
+                    posts: []
                 }
         }
 
         componentDidMount = () => {
-                this.fetchComments();
+                this.fetchPosts();
+                
             }
 
 
-        fetchComments = () => {
+        fetchPosts = () => {
 
                 const accessToken = localStorage.getItem('token');
 
-                fetch(`http://localhost:3008/comment/findpostcomments/${this.props.postIdentity}`,{
+                fetch(`http://localhost:3008/post/${this.props.fetchtype}`,{
                 method: 'GET',
                 headers: new Headers({
                         'Content-Type': 'application/json',
@@ -30,28 +36,30 @@ class CommentList extends React.Component{
                         .then(res => res.json())
                         .then(data => {
                                 this.setState({
-                                        comments : data
+                                        posts : data
                 })
             })
             .catch(err => console.log(err));
-    }
+        }
 
     render(){
-        let finishedComments = this.state.comments.map(data => {
+        let finishedPosts = this.state.posts.map(data => {
             return (
-                <Comment key={data.id} comment={data}/>
+                
+                <Post key={data.id} post={data}/>
+               
             )
         })
 
         return(
-                <div>       
-                <h5>Comments on this post:</h5>
-                {finishedComments}
 
-                </div>
-               
+        <Container>
+                <Row>   
+                <Col>{finishedPosts}</Col>
+                </Row>   
+        </Container>
         )
 
     }
 }
-export default CommentList;
+export default PostList;

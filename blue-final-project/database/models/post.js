@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes){
       useridofposter: {
         type: DataTypes.INTEGER,
         allowNull: false
+      },
+      creationtime: {
+        type: DataTypes.BIGINT,
+        allowNull: false
       }
     })
   }

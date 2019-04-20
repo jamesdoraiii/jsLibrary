@@ -3,21 +3,50 @@ var router = express.Router();
 var sequelize = require('../db');
 var Post = sequelize.import('../models/post');
 
+const Op = sequelize.Op;
+
 
 //This router creates new posts
 router.post('/create', (req, res) => {
+    let d=Date.now()
     const newPost = {
         trackname: req.body.post.trackname,
         artistname: req.body.post.artistname,
         link: req.body.post.link,
         numberoflikes: req.body.post.numberoflikes,
-        useridofposter: req.user.id
+        useridofposter: req.user.id,
+        creationtime: d
     };
  
     Post.create(newPost)
         .then(post => res.status(200).json(post))
         .catch(err => res.status(500).json({ error: err }))
  })
+
+
+//This router updates a post
+
+router.put('/update/:id', function(req, res) {
+    var artistname = req.body.post.artistname;
+    var trackname = req.body.post.trackname;
+    var link = req.body.post.link; 
+
+        Post.update({
+            trackname: trackname,
+            artistname: artistname,
+            link: link
+
+        },
+        {where: {id: req.params.id}}
+        ).then(
+            function updateSuccess() { //8
+                res.json({
+                });            
+            },
+            function updateError(err){ //9
+                res.send(500, err.message);
+            }
+)});
 
 
 //This router finds all posts made by the user who is currently validated
@@ -27,6 +56,12 @@ router.get('/finduserposts', (req, res) => {
        .catch(err => res.status(500).json({ error: err }))
 });
 
+//This finds a post with a specific post id
+router.get('/findspecificpost/:id', (req, res) => {
+    Post.findAll({ where: { id: req.params.id} })
+       .then(post => res.status(200).json(post))
+       .catch(err => res.status(500).json({ error: err }))
+});
 
 //This router finds x number recent posts, (use limit) STILL NEED TO FIGURE OUT HOW TO FIND THE MOST RECENT POSTS
 router.get('/findrecentposts', (req, res) => {
@@ -99,7 +134,7 @@ router.delete('/deletepost/:id', (req, res) => {
  //You need to write a router which will bring in the top 10 entries with the highest amount of likes based on a time frame (day, week, month)
  //----------------------------------
 
- router.get('/findtopposts', (req, res) => {
+ router.get('/findtoppostsalltime', (req, res) => {
     Post.findAll(
         {order: [
             ['numberoflikes', 'DESC']
@@ -109,7 +144,65 @@ router.delete('/deletepost/:id', (req, res) => {
        .catch(err => res.status(500).json({ error: err }))
 });
 
+router.get('/findtoppostsday', (req, res) => {
+    var d = new Date();
+    Post.findAll(
+        {where: {
+            creationtime: {
+                "$between" : [Date.now()-(1*(1000*60*60*24)), Date.now()]
+            }
+        },order: [
+            ['numberoflikes', 'DESC']
+        ],limit: 10}
+        )
+       .then(posts => res.status(200).json(posts))
+       .catch(err => res.status(500).json({ error: err }))
+    });
+    
+    router.get('/findtoppostsweek', (req, res) => {
+        var d = new Date();
+        Post.findAll(
+            {where: {
+                creationtime: {
+                    "$between" : [Date.now()-(7*(1000*60*60*24)), Date.now()]
+                }
+            },order: [
+                ['numberoflikes', 'DESC']
+            ],limit: 10}
+            )
+           .then(posts => res.status(200).json(posts))
+           .catch(err => res.status(500).json({ error: err }))
+        });
 
+        router.get('/findtoppostsmonth', (req, res) => {
+            var d = new Date();
+            Post.findAll(
+                {where: {
+                    creationtime: {
+                        "$between" : [Date.now()-(31*(1000*60*60*24)), Date.now()]
+                    }
+                },order: [
+                    ['numberoflikes', 'DESC']
+                ],limit: 10}
+                )
+               .then(posts => res.status(200).json(posts))
+               .catch(err => res.status(500).json({ error: err }))
+            });
+        
+            router.get('/findtoppostsyear', (req, res) => {
+                var d = new Date();
+                Post.findAll(
+                    {where: {
+                        creationtime: {
+                            "$between" : [Date.now()-(363*(1000*60*60*24)), Date.now()]
+                        }
+                    },order: [
+                        ['numberoflikes', 'DESC']
+                    ],limit: 10}
+                    )
+                   .then(posts => res.status(200).json(posts))
+                   .catch(err => res.status(500).json({ error: err }))
+                });
 
 
 module.exports = router;

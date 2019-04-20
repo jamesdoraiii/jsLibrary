@@ -34,7 +34,7 @@ class App extends Component {
   
   viewConductor = () => {
     return this.state.sessionToken !== '' ? 
-    <Router><SiteBar/></Router> : <Auth setToken={this.setSessionState}/>
+    <Router><SiteBar logoutFunc = {this.logout}/></Router> : <Auth setToken={this.setSessionState}/>
   }
 
   logout = () => {
@@ -48,8 +48,7 @@ class App extends Component {
 
   render() {
     return (
-      <div >
-        <button onClick={this.logout}>Logout</button>
+      <div id="app">
         {this.viewConductor() }
       </div>
     );

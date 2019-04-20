@@ -21,14 +21,21 @@ router.post('/create', (req, res) => {
 
 //This router finds all comments located under a specific post
 router.get('/findpostcomments/:postid', (req, res) => {
-    Comment.findAll({ where: { postidofparent: req.params.postid} })
+    Comment.findAll(
+        { where: { postidofparent: req.params.postid}, order: [
+            ['id', 'DESC']
+        ] })
        .then(comments => res.status(200).json(comments))
        .catch(err => res.status(500).json({ error: err }))
 });
 
 //This router finds all comments made by whoever is currently logged in
 router.get('/findusercomments', (req, res) => {
-    Comment.findAll({ where: { useridofcommenter: req.user.id} })
+    Comment.findAll(
+        { where: { useridofcommenter: req.user.id}, order: [
+            ['id', 'DESC']
+        ] },
+        )
        .then(comments => res.status(200).json(comments))
        .catch(err => res.status(500).json({ error: err }))
 });
@@ -37,6 +44,16 @@ router.get('/findusercomments', (req, res) => {
 //This router deletes a comment based on the id of the specific comment
 router.delete('/deletecomment/:id', (req, res) => {
     Comment.destroy({ where: { id: req.params.id} })
+        .then(deleted => res.status(200).json({
+            deleted: req.body.name,
+            message: 'comment succesfully deleted'
+        }))
+        .catch(err => res.status(500).json({ error : err }))
+ })
+
+//This router deletes a comment based on the id of the specific comment
+router.delete('/deletepostcomments/:id', (req, res) => {
+    Comment.destroy({ where: { postidofparent: req.params.id} })
         .then(deleted => res.status(200).json({
             deleted: req.body.name,
             message: 'comment succesfully deleted'
