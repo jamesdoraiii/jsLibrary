@@ -1,3 +1,4 @@
+require ("dotenv").config()
 var express = require('express'); 
 var app = express(); 
 var user = require('./controllers/usercontroller');
@@ -26,7 +27,7 @@ app.use('/post', post);
 
 app.use('/comment', comment);
 
-app.listen(3008, function(){
-    console.log('App is listening on 3008.')
+app.listen(process.env.PORT, function(){
+    console.log(`App is listening on ${process.env.PORT}`)
 });
 

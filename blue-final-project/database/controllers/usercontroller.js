@@ -19,7 +19,7 @@ router.post('/createuser', function (req, res) {
   }).then(
     function createSuccess(user) {
 
-      var token = jwt.sign({id: user.id}, "this is a public secret dont forget to put it in env", {expiresIn: 60*60*24});
+      var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
 
       res.json({
         user: user,
@@ -43,7 +43,7 @@ router.post('/signin', function (req, res) {
                     //1
                     if (matches) {
                       //2
-                      var token = jwt.sign({id: user.id}, "this is a public secret dont forget to put it in env", {expiresIn: 60*60*24 });
+                      var token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24 });
                       res.json({  //3
                           user: user,
                           message: "successfully authenticated",
